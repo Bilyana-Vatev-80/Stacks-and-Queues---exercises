@@ -7,31 +7,32 @@ public class SimpleTextEditor_8 {
         int n = Integer.parseInt(scanner.nextLine());
         ArrayDeque<String> stack = new ArrayDeque<>();
         StringBuilder sb = new StringBuilder();
-        stack.push(sb.toString());
-        for (int i = 0; i < n; i++) {
-            String[] command = scanner.nextLine().split("\\s+");
 
-            switch (command[0]) {
+        for (int i = 0; i < n; i++) {
+            String[] tokens = scanner.nextLine().split("\\s+");
+            switch (tokens[0]) {
                 case "1":
-                    sb.append(command[1]);
                     stack.push(sb.toString());
+                    sb.append(tokens[1]);
+
                     break;
                 case "2":
-                    int count = Integer.parseInt(command[1]);
-                    sb.delete(sb.length() - count, count);
                     stack.push(sb.toString());
+                    int count = Integer.parseInt(tokens[1]);
+                    int start = sb.length() - count;
+                    sb.delete(start, start + count);
                     break;
                 case "3":
-                    int index = Integer.parseInt(command[1]);
-                    System.out.println();
+                    int index = Integer.parseInt(tokens[1]);
+                    System.out.println(sb.charAt(index - 1));
                     break;
                 case "4":
-                    stack.pop();
-                    sb = new StringBuilder();
-                    sb.append(stack.pop());
+                    //undo operation
+                    if (!stack.isEmpty()) {
+                        sb = new StringBuilder(stack.pop());
+                    }
                     break;
             }
-
         }
     }
 }
